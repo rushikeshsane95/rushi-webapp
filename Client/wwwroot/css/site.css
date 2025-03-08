@@ -1,0 +1,61 @@
+﻿/* Navigation bar styles */
+.navbar {
+    background-color: #003366; /* Blue background */
+    padding: 20px 20px; /* Increased vertical padding for a thicker navbar */
+    position: fixed; /* Stick to the top */
+    top: 0;
+    width: 100%; /* Full width */
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.nav-links {
+    list-style: none; /* Remove bullet points */
+    display: flex; /* Align items horizontally */
+    justify-content: center; /* Center the links */
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    margin: 0 15px; /* Space between links */
+}
+
+.nav-links a {
+    text-decoration: none; /* Remove underline from links */
+    color: white; /* White font color */
+    font-size: 16px; /* Font size */
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: #FFD700; /* Change color on hover (gold) */
+}
+
+.content {
+    margin-top: 160px; /* Adjust this value as needed to match your navbar's height */
+}
+
+
+/* Section styles for demonstration purposes */
+section {
+    padding: 100px 20px; /* Add space around sections */
+}
+
+#about, #projects, #resume, #contact {
+    margin-top: 60px; /* Ensure sections don't overlap with navbar */
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column; /* Stack links vertically */
+        align-items: center;
+    }
+
+    .nav-links li {
+        margin-bottom: 10px;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
