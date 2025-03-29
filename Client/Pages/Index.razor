@@ -3,43 +3,43 @@
 <PageTitle>Index</PageTitle>
 
 <div class="container">
+    <!-- About Section -->
     <div class="row">
         <div class="col-md-8 offset-md-2 text-center">
             <img src="./images/my_image.jpg" alt="My Photo" class="img-fluid rounded-circle mb-4" style="max-width: 200px;">
+            <h1>Rushikesh Sane</h1>
             <p>
-                I'm Rushi and I'm a full stack developer with a heavy emphasis on backend development. Since 2017, I've been working as a software engineer.
-                I have lived in many countries,worked across folks across the globe and always up for friendly conversations about technology, weather, meaning of life or anything except Trump.
-                I have a passion for learning and sharing my knowledge with others as publicly as possible. If you're interested in learning more about me, feel free to explore the rest of my website.
-            </p>
-            <p>
-                Have a question? I'm always happy to answer! <a href="mailto:your.email@example.com">Contact me</a>
+                I'm Rushi and I'm a full stack developer with a heavy emphasis on backend development. 
             </p>
         </div>
     </div>
+    
+    <!-- Who am I Section -->
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h2>Who am I?</h2>
+                <p>
+                    Originally from Pune, India, I have been working in the software industry since 2017.
+                    Since 2017, I've been working as a software engineer.
+                    I have lived in many countries, worked across folks across the globe and I'm always up for friendly conversations about technology, weather, the meaning of life, or anything except Trump.
+                    I have a passion for learning and sharing my knowledge, experience, and shower thoughts with others. If you're interested in learning more about me, feel free to explore the rest of my website.
+                </p>
+            </div>
+        </div>
+    </div>
 
+    <!-- Personality Button Section -->
     <div class="row mt-5">
         <div class="col-md-4">
-            <h2>Innovation and Knowledge</h2>
-            <p>
-                I pride myself on being an innovative and knowledgeable developer. When given the chance, I revel in the
-                ability to discover and develop new technology.
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h2>Leadership</h2>
-            <p>
-                Leadership is important to ensure teams can realize their potential. My leadership style focuses on
-                creating a culture of innovation by giving developers autonomy and focusing on skill development.
-            </p>
-        </div>
-        <div class="col-md-4">
             <h2>Want to learn more about my personality?</h2>
-            <p>
-                [Add a short description or link to another page]
-            </p>
+            <button class="btn btn-primary" onclick="window.open('https://www.16personalities.com/entj-personality', '_blank')">
+                The Commander
+            </button>
         </div>
     </div>
 
+    <!-- Projects Section -->
     <div class="row mt-5">
         <div class="col-md-12">
             <h2>Projects</h2>
@@ -52,7 +52,7 @@
                     <h3><a href="#">Project 2</a></h3>
                     <p>A brief description of project 2.</p>
                 </div>
-                 <div class="col-md-6">
+                <div class="col-md-6">
                     <h3><a href="#">Project 3</a></h3>
                     <p>A brief description of project 3.</p>
                 </div>
@@ -63,4 +63,141 @@
             </div>
         </div>
     </div>
+    
+    <!-- Timeline Section placed outside the main container -->
+    <div class="row mt-5">
+        <h2>My life in a nutshell</h2>
+    </div>
+    <div class="timeline-section">
+        <div class="timeline-wrapper">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">1995</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Born in Pune.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2013</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Graduated high school.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2017</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Graduated with bachelor's degree. Started my 1st job with Bentley Systems in Pune.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2018</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Embarked on global adventures. Left home to pursue a master's degree in Finland.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2019</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Moved to Norway to work with Vimond.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2020</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Finished master's degree while working full time.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2021</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Joined StormGeo.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Started learning Norwegian.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-description">
+                        Planning future endeavors and dreaming big for what comes next.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<!-- Inline CSS for timeline styling -->
+<style>
+.timeline-section {
+padding: 50px 0;
+text-align: center;
+background: #fff;
+}
+
+.timeline-wrapper {
+overflow-x: auto;
+}
+
+.timeline {
+display: flex;
+width: max-content; /* Ensures width spans all timeline items */
+position: relative;
+margin-top: 20px;
+}
+/* Blue horizontal line connecting the dots */
+.timeline::before {
+content: "";
+position: absolute;
+top: 40px; /* Adjust this so it passes through the 16px dot's center (8px from top of dot) */
+left: 0;
+    width: 100%;
+    border-bottom: 1px solid #003366;
+    z-index: 0;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    flex: 0 0 auto;
+    min-width: 150px;
+    z-index: 1; /* Ensure timeline items appear above the blue line */
+}
+
+.timeline-year {
+    font-size: 18px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 2px;
+}
+
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    background-color: #003366;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.timeline-description {
+    font-size: 14px;
+    color: #555;
+    max-width: 200px;
+}
+</style>
