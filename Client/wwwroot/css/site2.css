@@ -1,0 +1,121 @@
+﻿:root {
+    /* Base colors */
+    --primary-bg: #ffffff; /* White background */
+    --secondary-bg: #f9fafb; /* Very light gray background for sections */
+    --primary-text: #1f2937; /* Dark gray text */
+    --secondary-text: #4b5563; /* Medium gray for less prominent text */
+    /* Accent colors (using a modern blue accent similar to Brittany's) */
+    --accent-color: #3b82f6; /* Bright blue for links & buttons */
+    --accent-hover: #2563eb; /* Slightly darker blue on hover */
+    /* Navbar specific */
+    --navbar-bg: #ffffff;
+    --navbar-text: #1f2937;
+}
+
+/* Global resets and base styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    line-height: 1.6;
+}
+
+/* Links */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+    a:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+    }
+
+/* Containers */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container-fluid {
+    width: 100%;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--navbar-bg);
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+    .nav-links li {
+        margin: 0 15px;
+    }
+
+    .nav-links a {
+        color: var(--navbar-text);
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+/* Headings */
+h1, h2, h3 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--accent-color);
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background-color: var(--accent-hover);
+    }
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px 0;
+    border-top: 1px solid #e5e7eb;
+    font-size: 0.9em;
+}
+
+/* Sections with alternate background */
+.section-secondary {
+    background-color: var(--secondary-bg);
+    padding: 40px 20px;
+}
+
+/* Example for other elements can be added as needed */

@@ -1,0 +1,58 @@
+﻿.timeline-section {
+    padding: 50px 0;
+    text-align: center;
+    background: #fff;
+}
+
+.timeline-wrapper {
+    overflow-x: auto;
+}
+
+.timeline {
+    display: flex;
+    width: max-content; /* Ensures width spans all timeline items */
+    position: relative;
+    margin-top: 20px;
+}
+/* Blue horizontal line connecting the dots */
+.timeline::before {
+    content: "";
+    position: absolute;
+    top: 40px; /* Adjust this so it passes through the 16px dot's center (8px from top of dot) */
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid #003366;
+    z-index: 0;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    flex: 0 0 auto;
+    min-width: 150px;
+    z-index: 1; /* Ensure timeline items appear above the blue line */
+}
+
+.timeline-year {
+    font-size: 18px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 2px;
+}
+
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    background-color: #003366;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.timeline-description {
+    font-size: 14px;
+    color: #555;
+    max-width: 200px;
+}

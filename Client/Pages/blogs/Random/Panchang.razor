@@ -1,4 +1,4 @@
-﻿@page "/blogs/travel/chennai"
+﻿@page "/blogs/random/panchang"
 
 @inject HttpClient Http
 
@@ -13,7 +13,7 @@ else
 
 <!-- Back to travel blogs link -->
 <p>
-    <a href="/blogs/travel">Back to Travel Blogs</a>
+    <a href="/blogs/random">Back to Random Blogs</a>
 </p>
 
 @code {
@@ -21,9 +21,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-    // Fetch the Markdown file from wwwroot/blogs/travel/chennai.md
-        var markdown = await Http.GetStringAsync("blogs/travel/chennai.md");
-    // Convert the Markdown content to HTML using Markdig
+        // Fetch the Markdown file from wwwroot/blogs/travel/chennai.md
+        var markdown = await Http.GetStringAsync("blogs/random/panchang.md");
+        // Convert the Markdown content to HTML using Markdig
         htmlContent = Markdig.Markdown.ToHtml(markdown);
     }
 }
