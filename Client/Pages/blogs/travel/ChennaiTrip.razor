@@ -2,19 +2,22 @@
 
 @inject HttpClient Http
 
-@if (string.IsNullOrWhiteSpace(htmlContent))
-{
-    <p>Loading blog post...</p>
-}
-else
-{
-    @((MarkupString)htmlContent)
-}
+<div class="blog-container">
+    <h2>Travel Blog 1: Exploring the Alps</h2>
 
-<!-- Back to travel blogs link -->
-<p>
-    <a href="/blogs/travel">Back to Travel Blogs</a>
-</p>
+    @if (string.IsNullOrWhiteSpace(htmlContent))
+    {
+        <p>Loading blog post...</p>
+    }
+    else
+    {
+        @((MarkupString)htmlContent)
+    }
+
+    <p>
+        <a href="/blogs/travel">Back to Travel Blogs</a>
+    </p>
+</div>
 
 @code {
     private string htmlContent;
