@@ -9,13 +9,21 @@ h1:focus {
 }
 
 a, .btn-link {
-    color: #0071c1;
+    color: var(--color-primary);
+}
+
+a:hover, .btn-link:hover {
+    color: var(--color-accent);
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary-strong);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-strong);
 }
 
 .valid.modified:not([type=checkbox]) {

@@ -1,0 +1,31 @@
+<section id="technologies" class="section">
+    <div class="section-header">
+        <h2>Technologies</h2>
+        <p class="section-subtitle">
+            Tools I use to build reliable, modern applications.
+        </p>
+    </div>
+    <div class="tech-grid">
+        @foreach (var tech in _technologies)
+        {
+            <div class="tech-card">
+                <div class="tech-logo-wrap">
+                    <img src="@tech.LogoPath" alt="@tech.Name logo" loading="lazy" />
+                </div>
+                <h3>@tech.Name</h3>
+            </div>
+        }
+    </div>
+</section>
+
+@code {
+    private readonly IReadOnlyList<TechLogo> _technologies = new[]
+    {
+        new TechLogo("gRPC", "High-performance RPCs for services that need speed.", "images/grpc.svg"),
+        new TechLogo(".NET Core", "Building APIs, Blazor apps, and MVC sites with C#.", "images/dotnet.svg"),
+        new TechLogo("Azure", "Cloud hosting, integration, and managed services.", "images/azure.svg"),
+        new TechLogo("Node.js", "Event-driven services and tooling across the stack.", "images/nodejs.svg")
+    };
+
+    private sealed record TechLogo(string Name, string Description, string LogoPath);
+}

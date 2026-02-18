@@ -1,0 +1,30 @@
+﻿@page "/blogs/travel/jotunheim"
+
+@inject HttpClient Http
+
+<div class="blog-container">
+    @if (string.IsNullOrWhiteSpace(htmlContent))
+    {
+        <p>Loading blog post...</p>
+    }
+    else
+    {
+        @((MarkupString)htmlContent)
+    }
+
+    <p>
+        <a href="/blogs/travel">Back to Travel Blogs</a>
+    </p>
+</div>
+
+@code {
+    private string htmlContent;
+
+    protected override async Task OnInitializedAsync()
+    {
+    // Fetch the Markdown file from wwwroot/blogs/travel/jotunheim.md
+        var markdown = await Http.GetStringAsync("blogs/travel/jotunheim.md");
+    // Convert the Markdown content to HTML using Markdig
+        htmlContent = Markdig.Markdown.ToHtml(markdown);
+    }
+}

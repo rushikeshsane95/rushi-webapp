@@ -1,4 +1,7 @@
 ﻿@page "/blogs/random/panchang2"
+@using Markdig
+@inject IJSRuntime JS
+@using Markdig.Extensions.Mathematics;
 
 @inject HttpClient Http
 
@@ -8,7 +11,9 @@
 }
 else
 {
-    @((MarkupString)htmlContent)
+    <div class="markdown-content">
+        @((MarkupString)htmlContent)
+    </div>
 }
 
 <!-- Back to travel blogs link -->
@@ -23,7 +28,24 @@ else
     {
     // Fetch the Markdown file from wwwroot/blogs/travel/chennai.md
         var markdown = await Http.GetStringAsync("blogs/random/panchang2.md");
-    // Convert the Markdown content to HTML using Markdig
-        htmlContent = Markdig.Markdown.ToHtml(markdown);
+    
+    // Use advanced Markdig pipeline
+        var pipeline = new MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .UsePipeTables()
+            .UseMathematics() 
+            .Build();
+
+        htmlContent = Markdown.ToHtml(markdown, pipeline);
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("renderMath");
+        }
+    }
+
+
 }

@@ -1,119 +1,486 @@
-﻿/* Set the full page background to light grey */
-body {
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-}
-
-/* Constrain content with a white background for readability */
-.blog-container {
-    max-width: 800px; /* Limits the content width */
-    margin: 100px auto 0 auto; /* Centers the container horizontally and adds a top margin so it doesn't overlap with the navbar */
-    padding: 20px;
-    background-color: #ffffff; /* White background for the content area */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for separation */
-}
-
-
-/* Navigation bar styles */
-.navbar {
-    background-color: #003366; /* Blue background */
-    padding: 20px 20px; /* Increased vertical padding for a thicker navbar */
-    position: fixed; /* Stick to the top */
-    top: 0;
-    width: 100%; /* Full width */
-    z-index: 1000; /* Ensure it stays above other content */
-}
-
-.nav-links {
-    list-style: none; /* Remove bullet points */
-    display: flex; /* Align items horizontally */
-    justify-content: center; /* Center the links */
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links li {
-    margin: 0 15px; /* Space between links */
-}
-
-.nav-links a {
-    text-decoration: none; /* Remove underline from links */
-    color: white; /* White font color */
-    font-size: 16px; /* Font size */
-    font-weight: bold;
-}
-
-.nav-links a:hover {
-    color: #FFD700; /* Change color on hover (gold) */
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Dropdown content (hidden by default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #003366; /* Match the navbar background */
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-/* Dropdown links styling */
-.dropdown-content li {
-    margin: 0;
-}
-
-.dropdown-content a {
-    padding: 12px 16px;
-    display: block;
-    color: white;
-    text-decoration: none;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Optional: Add a hover effect to dropdown links */
-.dropdown-content a:hover {
-    background-color: #002244;
-}
-
-/* Ensure page content is pushed below the fixed navbar */
-.content {
-    margin-top: 80px; /* Adjust this value as needed */
-}
-
-
-/* Section styles for demonstration purposes */
-section {
-    padding: 100px 20px; /* Add space around sections */
-}
-
-#about, #projects, #resume, #contact {
-    margin-top: 60px; /* Ensure sections don't overlap with navbar */
-}
-
-@media (max-width: 768px) {
-    .nav-links {
-        flex-direction: column; /* Stack links vertically */
-        align-items: center;
-    }
-
-    .nav-links li {
-        margin-bottom: 10px;
-    }
+﻿:root {
+    --color-page: #f5f5f5;
+    --color-surface: #ffffff;
+    --color-primary: #003366;
+    --color-primary-strong: #002244;
+    --color-accent: #ffd700;
+    --color-text: #222222;
+    --color-muted: #555555;
+    --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.1);
+    --radius-lg: 12px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 20px;
+    --space-xl: 32px;
 }
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 110px;
+}
+
+/* Reset and base typography */
+body {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    background-color: var(--color-page);
+    color: var(--color-text);
+}
+
+/* Global fallback for layout styles if CSS isolation is unavailable */
+header.main-nav {
+    background-color: var(--color-primary);
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header.main-nav .nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+header.main-nav .nav-links li {
+    position: relative;
+}
+
+header.main-nav .nav-links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 6px 10px;
+    display: inline-block;
+}
+
+header.main-nav .nav-links a:hover {
+    color: var(--color-accent);
+}
+
+header.main-nav .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+header.main-nav .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--color-primary);
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+header.main-nav .dropdown-content a {
+    padding: 12px 16px;
+    display: block;
+}
+
+header.main-nav .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+header.main-nav .dropdown-content a:hover {
+    background-color: var(--color-primary-strong);
+}
+
+footer.footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--color-muted);
+    font-size: 14px;
+}
+
+/* Keep content below fixed top nav on all pages */
+.blog-container {
+    margin-top: 100px;
+}
+
+/* Blog container */
+.blog-container {
+    max-width: 800px;
+    margin: 100px auto 0 auto;
+    padding: var(--space-xl);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    box-sizing: border-box;
+}
+
+/* Ensure children respect spacing */
+.blog-container > * {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Headings */
+.blog-container h1,
+.blog-container h2,
+.blog-container h3 {
+    margin: 1.5rem 0 1rem;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.blog-container h1 {
+    font-size: 2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.3em;
+}
+
+.blog-container h2 {
+    font-size: 1.5rem;
+}
+
+.blog-container h3 {
+    font-size: 1.25rem;
+}
+
+/* Paragraphs */
+.blog-container p {
+    margin: 1rem 0;
+}
+
+/* Links */
+.blog-container a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.blog-container a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+/* Images inside markdown */
+.blog-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 1.5rem auto;
+}
+
+/* Code blocks */
+.blog-container pre {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.blog-container code {
+    font-family: Consolas, "Courier New", monospace;
+}
+
+/* Lists */
+.blog-container ul,
+.blog-container ol {
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+}
+
+.blog-container li {
+    margin-bottom: 0.5rem;
+}
+
+/* Page section structure */
+.section {
+    padding: 80px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.section:last-child {
+    border-bottom: none;
+}
+
+.section-header {
+    margin-bottom: 24px;
+}
+
+.section-subtitle {
+    color: var(--color-muted);
+}
+
+/* Portfolio homepage layout */
+.portfolio-page {
+    max-width: 1100px;
+    margin: 96px auto 0 auto;
+    padding: 0 20px 28px;
+}
+
+.portfolio-page .section {
+    border-bottom: none;
+}
+
+.portfolio-page .portfolio-panel {
+    background: var(--color-surface);
+    border: 1px solid #e8ecf1;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 18px;
+    padding: 24px;
+}
+
+.portfolio-hero {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    align-items: center;
+    background: linear-gradient(140deg, #ffffff 0%, #f3f8ff 100%);
+    border: 1px solid #dce8f5;
+    border-radius: 14px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 18px;
+    padding: 28px;
+}
+
+.hero-avatar img {
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+    border: 3px solid #d7e5f3;
+}
+
+.hero-copy h1 {
+    margin: 0 0 8px 0;
+}
+
+.hero-copy p {
+    margin: 0 0 14px 0;
+    color: #2d3f52;
+}
+
+.portfolio-page #technologies {
+    background: var(--color-surface);
+    border: 1px solid #e8ecf1;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 18px;
+    padding: 24px;
+}
+
+.portfolio-page .grid .card {
+    border: 1px solid #dbe7f2;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.portfolio-page .grid .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.portfolio-page #resume {
+    scroll-margin-top: 110px;
+}
+
+/* Hero layout */
+.hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+}
+
+.hero img {
+    max-width: 180px;
+}
+
+.hero h1 {
+    margin: 0.5rem 0;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    background: var(--color-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.primary-btn:hover {
+    background: var(--color-primary-strong);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    background: #f0f4f8;
+    color: var(--color-primary);
+    border: 1px solid #d5dbe3;
+    border-radius: 6px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+.secondary-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary-strong);
+    transform: translateY(-1px);
+}
+
+/* Card list for blogs/projects */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    padding: 16px;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    box-shadow: var(--shadow-soft);
+    background: #ffffff;
+}
+
+/* Timeline wrapper spacing */
+.timeline-shell {
+    margin-top: 16px;
+}
+
+.timeline-section {
+    padding: 50px 0;
+    text-align: center;
+    background: #fff;
+}
+
+.timeline-wrapper {
+    overflow-x: auto;
+}
+
+.timeline {
+    display: flex;
+    width: max-content;
+    position: relative;
+    margin-top: 20px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid var(--color-primary);
+    z-index: 0;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    flex: 0 0 auto;
+    min-width: 150px;
+    z-index: 1;
+}
+
+.timeline-year {
+    font-size: 18px;
+    font-weight: 700;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 2px;
+}
+
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.timeline-description {
+    font-size: 14px;
+    color: var(--color-muted);
+    max-width: 200px;
+}
+
+@media (min-width: 768px) {
+    .hero {
+        grid-template-columns: auto 1fr;
+        text-align: left;
+    }
+
+    .hero-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .portfolio-page {
+        margin-top: 110px;
+        padding: 0 14px 20px;
+    }
+
+    .portfolio-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 22px;
+    }
+
+    .hero-avatar {
+        display: flex;
+        justify-content: center;
+    }
+
+    .portfolio-page .portfolio-panel,
+    .portfolio-page #technologies {
+        padding: 18px;
+    }
+
+    header.main-nav .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .blog-container {
+        margin-top: 120px;
+        padding: var(--space-lg);
+    }
+
+    .section {
+        padding: 64px 0;
+    }
 }

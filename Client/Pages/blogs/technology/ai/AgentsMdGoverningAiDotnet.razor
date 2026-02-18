@@ -1,0 +1,28 @@
+@page "/blogs/technology/ai/agents-md-governing-ai-dotnet"
+
+@inject HttpClient Http
+
+<div class="blog-container">
+    @if (string.IsNullOrWhiteSpace(htmlContent))
+    {
+        <p>Loading blog post...</p>
+    }
+    else
+    {
+        @((MarkupString)htmlContent)
+    }
+
+    <p>
+        <a href="/blogs/technology/ai">Back to AI Blogs</a>
+    </p>
+</div>
+
+@code {
+    private string htmlContent = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var markdown = await Http.GetStringAsync("blogs/technology/ai/agents-md-governing-ai-dotnet.md");
+        htmlContent = Markdig.Markdown.ToHtml(markdown);
+    }
+}

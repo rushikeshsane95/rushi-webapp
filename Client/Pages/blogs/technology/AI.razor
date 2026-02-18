@@ -1,0 +1,72 @@
+@using System.Globalization
+@page "/blogs/technology/ai"
+
+@inject HttpClient Http
+
+<h2>AI Blogs</h2>
+<p>Dive into AI topics and tools.</p>
+
+@if (isLoading)
+{
+    <p>Loading entries...</p>
+}
+else if (posts.Count == 0)
+{
+    <p>No AI blog posts found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var post in posts)
+        {
+            <li><a href="@post.Path">@post.Title</a></li>
+        }
+    </ul>
+}
+
+@code {
+    private readonly IReadOnlyList<string> slugs = new[]
+    {
+        "agents-md-governing-ai-dotnet",
+        "codex-best-practices-dotnet"
+    };
+
+    private List<BlogPost> posts = new();
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var fetchTasks = slugs.Select(async slug =>
+        {
+            var markdown = await Http.GetStringAsync($"blogs/technology/ai/{slug}.md");
+            var title = ExtractTitle(markdown, ToTitleFromSlug(slug));
+            return new BlogPost($"/blogs/technology/ai/{slug}", title);
+        });
+
+        posts = (await Task.WhenAll(fetchTasks)).ToList();
+        isLoading = false;
+    }
+
+    private static string ExtractTitle(string markdown, string fallback)
+    {
+        foreach (var rawLine in markdown.Split('\n'))
+        {
+            var line = rawLine.Trim();
+            if (line.StartsWith("#"))
+            {
+                var title = line.TrimStart('#').Trim();
+                return title.Replace("`", string.Empty);
+            }
+        }
+
+        return fallback;
+    }
+
+    private static string ToTitleFromSlug(string slug)
+    {
+        var withSpaces = slug.Replace("-", " ");
+        return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(withSpaces);
+    }
+
+    private sealed record BlogPost(string Path, string Title);
+}

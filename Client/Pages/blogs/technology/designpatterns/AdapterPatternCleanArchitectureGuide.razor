@@ -1,0 +1,28 @@
+@page "/blogs/technology/designpatterns/adapter-pattern-clean-architecture-guide"
+
+@inject HttpClient Http
+
+<div class="blog-container">
+    @if (string.IsNullOrWhiteSpace(htmlContent))
+    {
+        <p>Loading blog post...</p>
+    }
+    else
+    {
+        @((MarkupString)htmlContent)
+    }
+
+    <p>
+        <a href="/blogs/technology/designpatterns">Back to Design Patterns</a>
+    </p>
+</div>
+
+@code {
+    private string htmlContent = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var markdown = await Http.GetStringAsync("blogs/technology/designpatterns/Adapter_Pattern_Clean_Architecture_Guide.md");
+        htmlContent = Markdig.Markdown.ToHtml(markdown);
+    }
+}

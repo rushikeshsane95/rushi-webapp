@@ -1,0 +1,35 @@
+﻿@page "/blogs/random/test"
+@inject IJSRuntime JS
+
+<div>
+    <p>This is a math formula:</p>
+    <p>$$ E = mc^2 $$</p>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+    // Inject renderMath function dynamically
+            var js = @"
+                window.renderMath = () => {
+                    return new Promise((resolve, reject) => {
+                        if (window.MathJax?.typesetPromise) {
+                            MathJax.typesetPromise().then(resolve).catch(reject);
+                        } else {
+                            setTimeout(() => {
+                                window.renderMath().then(resolve).catch(reject);
+                            }, 100);
+                        }
+                    });
+                };
+            ";
+            await JS.InvokeVoidAsync("eval", js);
+
+    // Now it's safe to call it
+            await JS.InvokeVoidAsync("renderMath");
+        }
+    }
+
+}

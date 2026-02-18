@@ -1,202 +1,161 @@
-﻿@page "/"
+@page "/"
+@inject IJSRuntime JS
 
 <PageTitle>Rushi</PageTitle>
 
-<div class="container">
-    <!-- About Section -->
-    <div class="row">
-        <div class="col-md-8 offset-md-2 text-center">
-            <img src="./images/my_image.jpg" alt="My Photo" class="img-fluid rounded-circle mb-4" style="max-width: 200px;">
+<main class="portfolio-page">
+    <section id="about" class="section portfolio-hero">
+        <div class="hero-avatar">
+            <img src="./images/my_image.jpg" alt="My Photo" class="img-fluid rounded-circle">
+        </div>
+        <div class="hero-copy">
             <h1>Rushikesh Sane</h1>
             <p>
-                I'm Rushi and I'm a full stack developer with a heavy emphasis on backend development. 
+                Full stack developer focused on backend architecture, reliable systems, and practical engineering.
+            </p>
+            <div class="hero-actions">
+                <a class="primary-btn" href="#projects">View work</a>
+                <a class="secondary-btn" href="/contact">Contact me</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section portfolio-panel">
+        <div class="section-header">
+            <h2>Who am I?</h2>
+            <p class="section-subtitle">
+                A blend of cultures, curiosity, and code.
             </p>
         </div>
-    </div>
-    
-    <!-- Who am I Section -->
-    <div class="container-fluid mt-5">
-        <div class="row">
-            <div class="col-12">
-                <h2>Who am I?</h2>
-                <p>
-                    Originally from Pune, India, I have been working as a software industry since 2017.
-                    Having lived in multiple countries, worked with folks across the globe, I'm always up for friendly conversations about technology, weather, the meaning of life, or anything except Trump.
-                    I have a passion for learning and sharing my knowledge, experience, and shower thoughts with others. If you're interested in learning more about me, feel free to explore the rest of my website.
-                </p>
-            </div>
-        </div>
-    </div>
+        <p>
+            Originally from Pune, India, I have been working in the software industry since 2017. Having lived in multiple countries and collaborated with teams across the globe, I'm always up for friendly conversations about technology, weather, the meaning of life, or any random shower tought.
+        </p>
+        <p>
+            I have a passion for learning and sharing my knowledge, experience, and shower thoughts with others. If you're interested in learning more about me, feel free to explore the rest of my website.
+        </p>
+    </section>
 
-    <!-- Personality Button Section -->
-    <div class="row mt-5">
-        <div class="col-md-4">
-            <h2>Want to learn more about my personality?</h2>
-            <button class="btn btn-primary" onclick="window.open('https://www.16personalities.com/entj-personality', '_blank')">
+    <Technologies />
+
+    <section class="section portfolio-panel">
+        <div class="section-header">
+            <h2>My personality type</h2>
+        </div>
+        <div class="hero-actions">
+            <button class="primary-btn" onclick="window.open('https://www.16personalities.com/entj-personality', '_blank')">
                 The Commander
             </button>
+            <button class="secondary-btn" @onclick="ScrollToTimeline">View Timeline</button>
         </div>
-    </div>
+    </section>
 
-    <!-- Projects Section -->
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <h2>Some of my blogs</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <h3><a href="#">Alamanac/Panchang</a></h3>
-                    <p>Want to be able to write and calculate your own almanac(or panchang)?</p>
-                </div>
-                <div class="col-md-6">
-                    <h3><a href="#">Trip to Chennai</a></h3>
-                    <p>Travelogue on a Chennai trip in 2024.</p>
-                </div>
-                <div class="col-md-6">
-                    <h3><a href="#">Project 3</a></h3>
-                    <p>A brief description of project 3.</p>
-                </div>
-                <div class="col-md-6">
-                    <h3><a href="#">Project 4</a></h3>
-                    <p>A brief description of project 4.</p>
+    <section id="projects" class="section portfolio-panel">
+        <div class="section-header">
+            <h2>Featured Writing</h2>
+            <p class="section-subtitle">A sample of technical and personal posts.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3><a href="/blogs/random/panchang">Almanac / Panchang</a></h3>
+                <p>Want to be able to write and calculate your own almanac (or panchang)?</p>
+            </div>
+            <div class="card">
+                <h3><a href="/blogs/travel/chennai">Trip to Chennai</a></h3>
+                <p>Travelogue on a Chennai trip in 2024.</p>
+            </div>
+            <div class="card">
+                <h3><a href="/blogs/technology/ai/agents-md-governing-ai-dotnet">Governing AI in Codebases</a></h3>
+                <p>How to use agents.md to keep AI-assisted coding safe and consistent.</p>
+            </div>
+            <div class="card">
+                <h3><a href="/blogs/technology/designpatterns/adapter-pattern-clean-architecture-guide">Adapter Pattern Guide</a></h3>
+                <p>Clean Architecture focused guide to implementing adapters in production systems.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="resume" class="section portfolio-panel">
+        <div class="section-header">
+            <h2>My life in a nutshell</h2>
+            <p class="section-subtitle">Key milestones along the way.</p>
+        </div>
+        <div class="timeline-shell">
+            <div class="timeline-section">
+                <div class="timeline-wrapper">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1995</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Born in Pune.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2013</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Graduated high school.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2017</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Graduated with bachelor's degree. Started my 1st job with Bentley Systems in Pune.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2018</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Embarked on global adventures. Left home to pursue a master's degree in Finland.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2019</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Moved to Norway to work with Vimond.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2020</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Finished master's degree while working full time.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2021</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Joined StormGeo.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2022</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Started learning Norwegian.
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2024</div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-description">
+                                Planning future endeavors and dreaming big for what comes next.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Timeline Section placed outside the main container -->
-    <div class="row mt-5">
-        <h2>My life in a nutshell</h2>
-    </div>
-    <div class="timeline-section">
-        <div class="timeline-wrapper">
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-year">1995</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Born in Pune.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2013</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Graduated high school.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2017</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Graduated with bachelor's degree. Started my 1st job with Bentley Systems in Pune.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2018</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Embarked on global adventures. Left home to pursue a master's degree in Finland.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2019</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Moved to Norway to work with Vimond.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2020</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Finished master's degree while working full time.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2021</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Joined StormGeo.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2022</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Started learning Norwegian.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2024</div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-description">
-                        Planning future endeavors and dreaming big for what comes next.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>
+</main>
 
-</div>
-
-<!-- Inline CSS for timeline styling -->
-<style>
-.timeline-section {
-padding: 50px 0;
-text-align: center;
-background: #fff;
+@code {
+    private async Task ScrollToTimeline()
+    {
+        await JS.InvokeVoidAsync("scrollToElementById", "resume");
+    }
 }
-
-.timeline-wrapper {
-overflow-x: auto;
-}
-
-.timeline {
-display: flex;
-width: max-content; /* Ensures width spans all timeline items */
-position: relative;
-margin-top: 20px;
-}
-/* Blue horizontal line connecting the dots */
-.timeline::before {
-content: "";
-position: absolute;
-top: 40px; /* Adjust this so it passes through the 16px dot's center (8px from top of dot) */
-left: 0;
-    width: 100%;
-    border-bottom: 1px solid #003366;
-    z-index: 0;
-}
-
-.timeline-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 20px;
-    flex: 0 0 auto;
-    min-width: 150px;
-    z-index: 1; /* Ensure timeline items appear above the blue line */
-}
-
-.timeline-year {
-    font-size: 18px;
-    font-weight: bold;
-    height: 30px;
-    line-height: 30px;
-    margin-bottom: 2px;
-}
-
-.timeline-dot {
-    width: 16px;
-    height: 16px;
-    background-color: #003366;
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-.timeline-description {
-    font-size: 14px;
-    color: #555;
-    max-width: 200px;
-}
-</style>

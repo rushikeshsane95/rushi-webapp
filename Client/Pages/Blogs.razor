@@ -1,0 +1,169 @@
+@page "/blogs"
+@using System.Globalization
+@using System.Reflection
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Blogs</PageTitle>
+
+<section class="section">
+    <div class="section-header">
+        <h1>Browse all content</h1>
+        <p class="section-subtitle">Jump to any page or blog entry.</p>
+    </div>
+
+    @if (HasContent)
+    {
+        <ul class="route-tree">
+            @foreach (var root in Roots)
+            {
+                if (!root.Children.Any())
+                {
+                    continue;
+                }
+
+                <li>
+                    <span>@root.Label</span>
+                    <ul>
+                        @foreach (var child in SortNodes(root.Children))
+                        {
+                            @RenderNode(child)
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No pages found.</p>
+    }
+</section>
+
+@code {
+    private readonly RouteNode pagesRoot = new("Pages");
+    private readonly RouteNode blogsRoot = new("Blogs");
+
+    private IEnumerable<RouteNode> Roots => new[] { pagesRoot, blogsRoot };
+
+    protected override void OnInitialized()
+    {
+        var routes = typeof(App).Assembly.ExportedTypes
+            .Where(t => typeof(ComponentBase).IsAssignableFrom(t))
+            .Where(t => t.Namespace?.Contains(".Pages") == true)
+            .SelectMany(t => t.GetCustomAttributes(typeof(RouteAttribute), inherit: true)
+                .OfType<RouteAttribute>()
+                .Select(attr => NormalizeRoute(attr.Template)))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        foreach (var route in routes)
+        {
+            AddRoute(route);
+        }
+    }
+
+    private static string NormalizeRoute(string template)
+    {
+        if (string.IsNullOrWhiteSpace(template))
+        {
+            return "/";
+        }
+
+        var normalized = template.StartsWith("/") ? template : $"/{template}";
+        return normalized.TrimEnd('/');
+    }
+
+    private void AddRoute(string route)
+    {
+        var trimmed = route.Trim('/');
+        var segments = string.IsNullOrEmpty(trimmed)
+            ? Array.Empty<string>()
+            : trimmed.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+        var isBlog = segments.FirstOrDefault()?.Equals("blogs", StringComparison.OrdinalIgnoreCase) == true;
+        var root = isBlog ? blogsRoot : pagesRoot;
+
+        var effectiveSegments = isBlog ? segments.Skip(1).ToArray() : segments;
+
+        BuildNode(root, effectiveSegments, route);
+    }
+
+    private void BuildNode(RouteNode root, IReadOnlyList<string> segments, string fullPath)
+    {
+        if (segments.Count == 0)
+        {
+            var homeNode = root.Children.FirstOrDefault(c => c.Label == "Home");
+            if (homeNode == null)
+            {
+                root.Children.Add(new RouteNode("Home", "/"));
+            }
+            return;
+        }
+
+        var current = root;
+        for (var i = 0; i < segments.Count; i++)
+        {
+            var label = ToDisplayText(segments[i]);
+            var existing = current.Children.FirstOrDefault(c => string.Equals(c.Label, label, StringComparison.OrdinalIgnoreCase));
+            if (existing == null)
+            {
+                existing = new RouteNode(label);
+                current.Children.Add(existing);
+            }
+
+            current = existing;
+
+            if (i == segments.Count - 1)
+            {
+                current.FullPath ??= fullPath;
+            }
+        }
+    }
+
+    private static string ToDisplayText(string segment)
+    {
+        var cleaned = segment.Replace("-", " ");
+        return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(cleaned);
+    }
+
+    private RenderFragment RenderNode(RouteNode node) => builder =>
+    {
+        var seq = 0;
+        builder.OpenElement(seq++, "li");
+
+        if (!string.IsNullOrEmpty(node.FullPath))
+        {
+            builder.OpenElement(seq++, "a");
+            builder.AddAttribute(seq++, "href", node.FullPath);
+            builder.AddContent(seq++, node.Label);
+            builder.CloseElement();
+        }
+        else
+        {
+            builder.AddContent(seq++, node.Label);
+        }
+
+        if (node.Children.Any())
+        {
+            builder.OpenElement(seq++, "ul");
+            foreach (var child in SortNodes(node.Children))
+            {
+                builder.AddContent(seq++, RenderNode(child));
+            }
+            builder.CloseElement();
+        }
+
+        builder.CloseElement();
+    };
+
+    private static IEnumerable<RouteNode> SortNodes(IEnumerable<RouteNode> nodes) =>
+        nodes.OrderBy(n => n.Label, StringComparer.OrdinalIgnoreCase);
+
+    private bool HasContent => pagesRoot.Children.Any() || blogsRoot.Children.Any();
+
+    private sealed record RouteNode(string Label, string? FullPath = null)
+    {
+        public string? FullPath { get; set; } = FullPath;
+        public List<RouteNode> Children { get; } = new();
+    }
+}

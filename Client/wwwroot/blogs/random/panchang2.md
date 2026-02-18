@@ -3,9 +3,7 @@
 ## How to compute Julian day (JD)?
 Use this formula:
 
-$$
-JD = 367 * Y - ⌊(7 * (Y + ⌊(M + 9) / 12⌋)) / 4⌋ + ⌊(275 * M) / 9⌋ + D + 1721013.5 + (UT / 24)
-$$
+$$ JD = 367 * Y - ⌊(7 * (Y + ⌊(M + 9) / 12⌋)) / 4⌋ + ⌊(275 * M) / 9⌋ + D + 1721013.5 + (UT / 24) $$
 Where:
 - Y = year (e.g. 2025)
 - M = month (e.g. 4)

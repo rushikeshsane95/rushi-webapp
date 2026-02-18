@@ -1,0 +1,80 @@
+@using System.Globalization
+@page "/blogs/technology/designpatterns"
+
+@inject HttpClient Http
+
+<h2>Design Patterns</h2>
+<p>Explore the Design Patterns series.</p>
+
+@if (isLoading)
+{
+    <p>Loading entries...</p>
+}
+else if (posts.Count == 0)
+{
+    <p>No Design Patterns blog posts found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var post in posts)
+        {
+            <li><a href="@post.Path">@post.Title</a></li>
+        }
+    </ul>
+}
+
+@code {
+    private readonly IReadOnlyList<string> slugs = new[]
+    {
+        "adapter-pattern-clean-architecture-guide"
+    };
+
+    private List<BlogPost> posts = new();
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var fetchTasks = slugs.Select(async slug =>
+        {
+            var markdown = await Http.GetStringAsync($"blogs/technology/designpatterns/{ToMarkdownFileName(slug)}.md");
+            var title = ExtractTitle(markdown, ToTitleFromSlug(slug));
+            return new BlogPost($"/blogs/technology/designpatterns/{slug}", title);
+        });
+
+        posts = (await Task.WhenAll(fetchTasks)).ToList();
+        isLoading = false;
+    }
+
+    private static string ToMarkdownFileName(string slug)
+    {
+        return slug switch
+        {
+            "adapter-pattern-clean-architecture-guide" => "Adapter_Pattern_Clean_Architecture_Guide",
+            _ => slug
+        };
+    }
+
+    private static string ExtractTitle(string markdown, string fallback)
+    {
+        foreach (var rawLine in markdown.Split('\n'))
+        {
+            var line = rawLine.Trim();
+            if (line.StartsWith("#"))
+            {
+                var title = line.TrimStart('#').Trim();
+                return title.Replace("`", string.Empty);
+            }
+        }
+
+        return fallback;
+    }
+
+    private static string ToTitleFromSlug(string slug)
+    {
+        var withSpaces = slug.Replace("-", " ");
+        return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(withSpaces);
+    }
+
+    private sealed record BlogPost(string Path, string Title);
+}

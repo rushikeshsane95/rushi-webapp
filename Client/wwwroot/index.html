@@ -5,23 +5,75 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Rushi</title>
-    <!--<base href="/" />-->
     <base href="/" />
+
+    <!-- Your CSS -->
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="BlazorBasic.styles.css" rel="stylesheet" />
+
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+
+    <!-- MathJax CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Safe renderMath definition -->
+    <script>
+        window.renderMath = () => {
+            return new Promise((resolve, reject) => {
+                const tryRender = () => {
+                    if (window.MathJax?.typesetPromise) {
+                        MathJax.typesetPromise().then(resolve).catch(reject);
+                    } else {
+                        setTimeout(tryRender, 100);
+                    }
+                };
+                tryRender();
+            });
+        };
+    </script>
+    <script>
+        window.scrollToElementById = (id) => {
+            const element = document.getElementById(id);
+            if (!element) {
+                return;
+            }
+
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+        };
+    </script>
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+<div id="app">Loading...</div>
 
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
-    <script src="_framework/blazor.webassembly.js"></script>
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+<!-- Manual Blazor startup -->
+<script src="_framework/blazor.webassembly.js" autostart="false"></script>
+<script>
+        window.addEventListener('load', () => {
+            console.log("✅ DOM loaded, starting Blazor...");
+            Blazor.start().then(() => {
+                console.log("🚀 Blazor started.");
+            });
+        });
+    </script>
 </body>
 
 </html>

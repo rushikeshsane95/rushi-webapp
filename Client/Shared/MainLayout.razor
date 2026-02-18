@@ -1,13 +1,15 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<header class="navbar">
+<header class="navbar main-nav">
     <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/projects">Projects</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/#resume">Resume</a></li>
+        <li><a href="/contact">Contact</a></li>
         <li class="dropdown">
-            <a href="#">Blogs</a>
+            <a href="/blogs">Blogs</a>
             <ul class="dropdown-content">
                 <li><a href="/blogs/travel">Travel</a></li>
                 <li><a href="/blogs/technology">Technology</a></li>
@@ -15,7 +17,6 @@
                 <li><a href="/blogs/random">Random</a></li>
             </ul>
         </li>
-        <li><a href="/contact">Contact</a></li>
     </ul>
 </header>
 
@@ -27,9 +28,7 @@
 
 @if (isHome)
 {
-    <div style="margin-top: 100px;">
-        @Body
-    </div>
+    @Body
 }
 else
 {
@@ -39,5 +38,5 @@ else
 }
 
 <footer class="footer">
-    <p>&copy; @DateTime.Now.Year Your Name. All rights reserved.</p>
+    <p>&copy; @DateTime.Now.Year Rushikesh Sane. All rights reserved.</p>
 </footer>
