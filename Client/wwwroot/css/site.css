@@ -106,6 +106,22 @@ footer.footer {
     font-size: 14px;
 }
 
+header.main-nav .menu-toggle {
+    display: none;
+    border: none;
+    background: transparent;
+    padding: 6px;
+    cursor: pointer;
+}
+
+header.main-nav .menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    margin: 5px 0;
+    background-color: #ffffff;
+}
+
 /* Keep content below fixed top nav on all pages */
 .blog-container {
     margin-top: 100px;
@@ -470,25 +486,55 @@ footer.footer {
         padding: 18px;
     }
 
-    header.main-nav .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-    }
-
     header.main-nav {
         position: sticky;
         top: 0;
-        padding: 10px 12px;
+        padding: 8px 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    header.main-nav .nav-links li {
-        line-height: 1.2;
+    header.main-nav .menu-toggle {
+        display: block;
+    }
+
+    header.main-nav .nav-links {
+        display: none;
+        width: 100%;
+        margin-top: 8px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    header.main-nav .nav-links.is-open {
+        display: flex;
     }
 
     header.main-nav .nav-links a {
-        padding: 4px 8px;
+        width: 100%;
+        padding: 8px 6px;
         font-size: 15px;
+    }
+
+    header.main-nav .dropdown {
+        display: block;
+        width: 100%;
+    }
+
+    header.main-nav .dropdown-content {
+        position: static;
+        display: block;
+        box-shadow: none;
+        background-color: transparent;
+        min-width: 0;
+        padding-left: 12px;
+        border-radius: 0;
+    }
+
+    header.main-nav .dropdown-content a {
+        padding: 6px 6px;
     }
 
     .blog-container {

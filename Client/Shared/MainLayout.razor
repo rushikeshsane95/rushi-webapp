@@ -2,19 +2,25 @@
 @inject NavigationManager NavigationManager
 
 <header class="navbar main-nav">
-    <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/#about">About</a></li>
-        <li><a href="/#projects">Projects</a></li>
-        <li><a href="/#resume">Resume</a></li>
-        <li><a href="/contact">Contact</a></li>
+    <button class="menu-toggle" type="button" @onclick="ToggleMobileMenu" aria-label="Toggle menu" aria-expanded="@isMobileMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <ul class="nav-links @(isMobileMenuOpen ? "is-open" : string.Empty)">
+        <li><a href="/" @onclick="CloseMobileMenu">Home</a></li>
+        <li><a href="/#about" @onclick="CloseMobileMenu">About</a></li>
+        <li><a href="/#projects" @onclick="CloseMobileMenu">Projects</a></li>
+        <li><a href="/#resume" @onclick="CloseMobileMenu">Resume</a></li>
+        <li><a href="/contact" @onclick="CloseMobileMenu">Contact</a></li>
         <li class="dropdown">
-            <a href="/blogs">Blogs</a>
+            <a href="/blogs" @onclick="CloseMobileMenu">Blogs</a>
             <ul class="dropdown-content">
-                <li><a href="/blogs/travel">Travel</a></li>
-                <li><a href="/blogs/technology">Technology</a></li>
-                <li><a href="/blogs/philosophy">Philosophy</a></li>
-                <li><a href="/blogs/random">Random</a></li>
+                <li><a href="/blogs/travel" @onclick="CloseMobileMenu">Travel</a></li>
+                <li><a href="/blogs/technology" @onclick="CloseMobileMenu">Technology</a></li>
+                <li><a href="/blogs/philosophy" @onclick="CloseMobileMenu">Philosophy</a></li>
+                <li><a href="/blogs/random" @onclick="CloseMobileMenu">Random</a></li>
             </ul>
         </li>
     </ul>
@@ -40,3 +46,17 @@ else
 <footer class="footer">
     <p>&copy; @DateTime.Now.Year Rushikesh Sane. All rights reserved.</p>
 </footer>
+
+@code {
+    private bool isMobileMenuOpen;
+
+    private void ToggleMobileMenu()
+    {
+        isMobileMenuOpen = !isMobileMenuOpen;
+    }
+
+    private void CloseMobileMenu()
+    {
+        isMobileMenuOpen = false;
+    }
+}
