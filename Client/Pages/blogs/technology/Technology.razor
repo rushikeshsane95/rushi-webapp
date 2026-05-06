@@ -1,9 +1,82 @@
+@using System.Globalization
 @page "/blogs/technology"
 
-<h2>Technology Blogs</h2>
-<p>Explore technology topics:</p>
+@inject HttpClient Http
 
-<ul>
-    <li><a href="/blogs/technology/ai">AI</a></li>
-    <li><a href="/blogs/technology/designpatterns">Design Patterns</a></li>
-</ul>
+<h2>Technology Blogs</h2>
+<p>Explore technology topics and articles.</p>
+
+@if (isLoading)
+{
+    <p>Loading entries...</p>
+}
+else if (categories.Count == 0 && posts.Count == 0)
+{
+    <p>No technology blog posts found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var category in categories)
+        {
+            <li><a href="@category.Path">@category.Title</a></li>
+        }
+
+        @foreach (var post in posts)
+        {
+            <li><a href="@post.Path">@post.Title</a></li>
+        }
+    </ul>
+}
+
+@code {
+    private readonly IReadOnlyList<BlogPost> categories = new[]
+    {
+        new BlogPost("/blogs/technology/ai", "AI"),
+        new BlogPost("/blogs/technology/designpatterns", "Design Patterns")
+    };
+
+    private readonly IReadOnlyList<string> slugs = new[]
+    {
+        "n-plus-one-problem"
+    };
+
+    private List<BlogPost> posts = new();
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var fetchTasks = slugs.Select(async slug =>
+        {
+            var markdown = await Http.GetStringAsync($"blogs/technology/{slug}.md");
+            var title = ExtractTitle(markdown, ToTitleFromSlug(slug));
+            return new BlogPost($"/blogs/technology/{slug}", title);
+        });
+
+        posts = (await Task.WhenAll(fetchTasks)).ToList();
+        isLoading = false;
+    }
+
+    private static string ExtractTitle(string markdown, string fallback)
+    {
+        foreach (var rawLine in markdown.Split('\n'))
+        {
+            var line = rawLine.Trim();
+            if (line.StartsWith("#"))
+            {
+                var title = line.TrimStart('#').Trim();
+                return title.Replace("`", string.Empty);
+            }
+        }
+
+        return fallback;
+    }
+
+    private static string ToTitleFromSlug(string slug)
+    {
+        var withSpaces = slug.Replace("-", " ");
+        return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(withSpaces);
+    }
+
+    private sealed record BlogPost(string Path, string Title);
+}
