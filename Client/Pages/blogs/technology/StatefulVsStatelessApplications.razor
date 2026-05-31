@@ -1,0 +1,73 @@
+@page "/blogs/technology/stateful-vs-stateless-applications"
+@using Markdig
+
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<div class="blog-container">
+    @if (string.IsNullOrWhiteSpace(htmlContent))
+    {
+        <p>Loading blog post...</p>
+    }
+    else
+    {
+        @((MarkupString)htmlContent)
+    }
+
+    <p>
+        <a href="/blogs/technology">Back to Technology Blogs</a>
+    </p>
+</div>
+
+@code {
+    private string htmlContent = string.Empty;
+    private bool mermaidRendered;
+    private bool codeHighlighted;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var markdown = await Http.GetStringAsync("blogs/technology/stateful-vs-stateless-applications.md");
+        var pipeline = new MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .UsePipeTables()
+            .Build();
+
+        htmlContent = Markdown.ToHtml(markdown, pipeline);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (string.IsNullOrWhiteSpace(htmlContent))
+        {
+            return;
+        }
+
+        if (!mermaidRendered)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("renderMermaid");
+            }
+            catch (JSException)
+            {
+                // Mermaid failures should not block code highlighting.
+            }
+
+            mermaidRendered = true;
+        }
+
+        if (!codeHighlighted)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("renderCodeHighlighting");
+            }
+            catch (JSException)
+            {
+                // Syntax highlighting should fail silently rather than break the page.
+            }
+
+            codeHighlighted = true;
+        }
+    }
+}

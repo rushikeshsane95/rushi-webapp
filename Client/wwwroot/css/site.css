@@ -172,6 +172,23 @@ header.main-nav .menu-toggle span {
     margin: 1rem 0;
 }
 
+/* Quote callouts inside markdown posts */
+.blog-container blockquote {
+    max-width: 680px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    color: #2d3f52;
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.blog-container blockquote p {
+    margin: 0.4rem 0;
+}
+
 /* Links */
 .blog-container a {
     color: var(--color-primary);
@@ -205,6 +222,24 @@ header.main-nav .menu-toggle span {
 
 .blog-container code {
     font-family: Consolas, "Courier New", monospace;
+}
+
+.blog-container .mermaid {
+    background: #ffffff;
+    color: #1f2937;
+    padding: 1rem;
+    border: 1px solid #d8dee4;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.blog-container .mermaid svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    background: #ffffff;
 }
 
 /* Lists */
