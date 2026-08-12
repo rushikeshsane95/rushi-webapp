@@ -1,0 +1,92 @@
+@page "/blogs/technology/cors"
+@using Markdig
+@implements IDisposable
+
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<div class="blog-container">
+    @if (string.IsNullOrWhiteSpace(htmlContent))
+    {
+        <p>Loading blog post...</p>
+    }
+    else
+    {
+        @((MarkupString)htmlContent)
+    }
+
+    <p>
+        <a href="/blogs/technology">Back to Technology Blogs</a>
+    </p>
+</div>
+
+@code {
+    private string htmlContent = string.Empty;
+    private bool codeHighlighted;
+    private string? lastScrolledFragment;
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += HandleLocationChanged;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var markdown = await Http.GetStringAsync("blogs/technology/cors.md");
+        var pageUri = new Uri(NavigationManager.Uri).GetLeftPart(UriPartial.Path);
+        var pipeline = new Markdig.MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .Build();
+
+        htmlContent = Markdig.Markdown.ToHtml(markdown, pipeline)
+            .Replace("href=\"#", $"href=\"{pageUri}#", StringComparison.Ordinal);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (string.IsNullOrWhiteSpace(htmlContent))
+        {
+            return;
+        }
+
+        if (!codeHighlighted)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("renderCodeHighlighting");
+            }
+            catch (JSException)
+            {
+                // Syntax highlighting should fail silently rather than break the page.
+            }
+
+            codeHighlighted = true;
+        }
+
+        var fragment = GetFragment(NavigationManager.Uri);
+        if (!string.IsNullOrWhiteSpace(fragment) && fragment != lastScrolledFragment)
+        {
+            await JS.InvokeVoidAsync("scrollToElementById", fragment);
+            lastScrolledFragment = fragment;
+        }
+    }
+
+    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private static string? GetFragment(string uri)
+    {
+        var hashIndex = uri.IndexOf('#');
+        return hashIndex < 0 || hashIndex == uri.Length - 1
+            ? null
+            : Uri.UnescapeDataString(uri[(hashIndex + 1)..]);
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= HandleLocationChanged;
+    }
+}
